@@ -11,13 +11,21 @@
 #include "ssd1366.h"
 #include "font8x8_basic.h"
 
-#define SDA_PIN GPIO_NUM_15
-#define SCL_PIN GPIO_NUM_2
+#define SDA_PIN GPIO_NUM_4
+#define SCL_PIN GPIO_NUM_15
+#define RST_PIN GPIO_NUM_16
 
 #define tag "SSD1306"
 
+
 void i2c_master_init()
 {
+gpio_set_direction(RST_PIN, GPIO_MODE_OUTPUT);
+	
+	gpio_set_level(RST_PIN , 0);
+	vTaskDelay(1000 / portTICK_PERIOD_MS);
+	gpio_set_level(RST_PIN , 1) ;
+//
 	i2c_config_t i2c_config = {
 		.mode = I2C_MODE_MASTER,
 		.sda_io_num = SDA_PIN,
